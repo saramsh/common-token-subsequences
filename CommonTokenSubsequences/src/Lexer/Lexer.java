@@ -20,32 +20,7 @@ import token.TokenType;
 
 public class Lexer {
 
-	public static void main(String[] args) throws AnalyzerException  {
-		// TODO Auto-generated method stub
-			try {
-			String content = new String(Files.readAllBytes(Paths.get("bin\\test.txt")));
-			StringTokenizer defaultTokenizer = new StringTokenizer(content);
-	         Lexer lx=new Lexer();
-	         lx.tokenize(content);
-	         List <Token> result=lx.result;
-
-	         for(int i=0;i<result.size();i++)
-	       
-	        {
-	        	 
-	            System.out.println(result.get(i).getTokenString());
-	        }
-		  //  System.out.println(content);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	
-		finally {
-		   
-		}
-
-	}
 	/** Mapping from type of token to its regular expression */
 	private Map<TokenType, String> regEx;
 
