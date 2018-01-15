@@ -72,9 +72,15 @@ public class Token {
 
 	@Override
 	public String toString() {
+		//edited by sara
+		//if (!this.getTokenType().isAuxiliary())
+		//	return tokenType + "  '" + tokenString + "' [" + beginIndex + ";" + endIndex + "] ";
+	//	else
+		//	return tokenType + "   [" + beginIndex + ";" + endIndex + "] ";
 		if (!this.getTokenType().isAuxiliary())
-			return tokenType + "  '" + tokenString + "' [" + beginIndex + ";" + endIndex + "] ";
+			return  tokenString;
 		else
-			return tokenType + "   [" + beginIndex + ";" + endIndex + "] ";
+			return "";
+			
 	}
 }
