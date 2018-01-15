@@ -55,8 +55,7 @@ public class CommonTokenSubsequence {
 	         str3=str3.replace("]", "");
 	         str3=str3.replace(",", "");
 	         solver.add(str3);
-	         CharSequence FirstLongestCommonSubsequence=solver.getLongestCommonSubstring().toString();
-	         List<String> LongestCommonSubstrings=solver.getLongestCommonSubstrings(FirstLongestCommonSubsequence, FirstLongestCommonSubsequence.toString().split(" ").length);
+	         List<String> LongestCommonSubstrings=solver.getLongestCommonSubstrings(solver.getLongestCommonSubstring().toString());
 	         System.out.println(LongestCommonSubstrings.size());
 	         for(int i=0;i<LongestCommonSubstrings.size();i++)
 	       
