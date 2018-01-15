@@ -26,7 +26,10 @@ public class Lexer {
 
 	/** List of tokens as they appear in the input source */
 	private List<Token> result;
-
+	
+	//added by sara
+	private List<String> resultString;
+	
 	/**
 	 * Initializes a newly created {@code Lexer} object
 	 */
@@ -34,6 +37,8 @@ public class Lexer {
 		regEx = new TreeMap<TokenType, String>();
 		launchRegEx();
 		result = new ArrayList<Token>();
+		//added by sara
+		resultString=new ArrayList<String>();
 	}
 
 	/**
@@ -50,9 +55,16 @@ public class Lexer {
 		Token token = null;
 		do {
 			token = separateToken(source, position);
-			if (token != null) {
+			
+			if (token != null ) {
 				position = token.getEnd();
+				//edited by sara
+				//if added by sara
+				if(!token.getTokenType().isAuxiliary())
+				{
 				result.add(token);
+				resultString.add(token.getTokenString());
+				}
 			}
 		} while (token != null && position != source.length());
 		if (position != source.length()) {
@@ -68,6 +80,10 @@ public class Lexer {
 	 */
 	public List<Token> getTokens() {
 		return result;
+	}
+	
+	public List<String> getTokensStrings() {
+		return resultString;
 	}
 
 	/**
