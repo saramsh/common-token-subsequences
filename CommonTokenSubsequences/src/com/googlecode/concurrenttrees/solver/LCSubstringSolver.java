@@ -108,7 +108,7 @@ public class LCSubstringSolver {
         }
         
         //added by sara 
-          List<String> getLongestCommonSubstrings(CharSequence FirstLongestCommonSubsequence , int FLCSSize) {
+          List<String> getLongestCommonSubstrings(CharSequence FirstLongestCommonSubsequence) {
     		// TODO Auto-generated method stub
     	     Node root = suffixTree.getNode();
             final List<String> longestCommonSubstrings=new ArrayList<String>() ;
@@ -120,7 +120,7 @@ public class LCSubstringSolver {
                           //	System.out.println (nodeKeyPair.key.toString().equals(FirstLongestCommonSubsequence.toString()));
                           	}
             	
-                if (nodeKeyPair.key.toString().split(" ").length == FLCSSize
+                if (nodeKeyPair.key.toString().split(" ").length == FirstLongestCommonSubsequence.toString().split(" ").length
                 		&& !nodeKeyPair.key.toString().equals(FirstLongestCommonSubsequence.toString())
                     && subTreeReferencesAllOriginalDocuments(nodeKeyPair.key, nodeKeyPair.node)) {
                     longestCommonSubstrings.add(nodeKeyPair.key.toString());                  
@@ -235,8 +235,8 @@ public class LCSubstringSolver {
         return suffixTree.getLongestCommonSubstring();
     }
     
-    public  List<String> getLongestCommonSubstrings(CharSequence FirstLongestCommonSubstring, int FLCSSize) {
-        return suffixTree.getLongestCommonSubstrings(FirstLongestCommonSubstring,FLCSSize);
+    public  List<String> getLongestCommonSubstrings(CharSequence FirstLongestCommonSubstring) {
+        return suffixTree.getLongestCommonSubstrings(FirstLongestCommonSubstring);
     }
     
     protected Set<String> createSetForOriginalKeys() {
