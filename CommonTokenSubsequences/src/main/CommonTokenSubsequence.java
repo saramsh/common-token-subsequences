@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -17,7 +18,10 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.math.*;
+
 import token.TokenType;
+
 
 import com.googlecode.concurrenttrees.common.PrettyPrinter;
 import com.googlecode.concurrenttrees.radix.node.concrete.DefaultCharSequenceNodeFactory;
@@ -30,19 +34,21 @@ public class CommonTokenSubsequence {
 		List<String> listOfTokenizedContent=new ArrayList<String>();
 			try {
 				//Read content of files and add them to listOfFilesContent
-				File folder = new File("bin\\2-testcase");
+				File folder = new File("bin\\100-testcase");
 				File[] listOfFiles = folder.listFiles();
 				
 				for (File file : listOfFiles) {
 					System.out.println(file.getName());
 				    if (file.isFile()) {
-				    	listOfFilesContent.add(new String(Files.readAllBytes(Paths.get("bin\\2-testcase\\"+file.getName()))));						
+				    	listOfFilesContent.add(new String(Files.readAllBytes(Paths.get("bin\\100-testcase\\"+file.getName()))));						
 				    }
 				}				
 		  LCSubstringSolver solver = new LCSubstringSolver(new DefaultCharSequenceNodeFactory());
 			//String content = new String(Files.readAllBytes(Paths.get("bin\\test.txt")));
 			StringTokenizer defaultTokenizer;
 			//tokenize fileContent
+			PrintWriter pw = new PrintWriter(new File("bin\\test4.csv"));
+	        StringBuilder sb = new StringBuilder();
 			int kk=0;
 			for(String fileContent:listOfFilesContent)
 			{
@@ -61,6 +67,7 @@ public class CommonTokenSubsequence {
 		         listOfTokenizedContent.add(tokenizedContent);
 		         solver.add(tokenizedContent);	     
 		         System.out.println(kk);
+		       //  sb.append(tokenizedContent);
 		         kk++;
 			}
 
@@ -83,18 +90,34 @@ public class CommonTokenSubsequence {
 	         //str3=str3.replace("]", "");
 	         //str3=str3.replace(",", "");
 	         //solver.add(str3);
+			
+	        sb.append("Score, Tokens, Count, SourceCode\n");
+	        System.out.println("ddddddddddd");
+	        String st=solver.getLongestCommonSubstring().toString();
+	        System.out.println( "longestcommon:"+st);
 	         List<String> LongestCommonSubstrings=solver.getLongestCommonSubstrings(solver.getLongestCommonSubstring().toString());
-	         System.out.println(LongestCommonSubstrings.size());
+	         System.out.println("ssize"+LongestCommonSubstrings.size());
 	         for(int i=0;i<LongestCommonSubstrings.size();i++)
 	       
 	        {
+	        	// System.out.println("11"+LongestCommonSubstrings.get(i));
+	        	 //System.out.println("22"+LongestCommonSubstrings.get(i).toString());
+	        	 int tokenCount=LongestCommonSubstrings.get(i).toString().split(" ").length;
+	        	 int count=0;
 	        	 for(String fileTokenizedContent: listOfTokenizedContent)
 	        	 {
-	           System.out.println(LongestCommonSubstrings.get(i)+" "+LongestCommonSubstrings.get(i).toString().split(" ").length);
-	          System.out.println(fileTokenizedContent+"\n"+count(fileTokenizedContent,LongestCommonSubstrings.get(i) ));
+	        		 count+=count(fileTokenizedContent,LongestCommonSubstrings.get(i));
+	                // System.out.println(LongestCommonSubstrings.get(i)+" "+tokenCount);
+	                 //System.out.println(fileTokenizedContent+"\n"+ count);
+	                 
 	        	 }
+	        	 double score=(Math.log(tokenCount)*Math.log(count));
+                 if(score!=0)
+                 sb.append(score+", "+tokenCount+", "+count+", "+LongestCommonSubstrings.get(i)+"\n");
+          
 	        }
-	        
+	         pw.write(sb.toString());
+	         pw.close();
 		  //  System.out.println(content);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

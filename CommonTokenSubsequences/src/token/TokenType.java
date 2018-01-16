@@ -1,6 +1,7 @@
 package token;
 
 public enum TokenType {
+	
 	BlockComment,
 
 	LineComment,
@@ -22,6 +23,10 @@ public enum TokenType {
 	OpeningSquareBrace,
 
 	ClosingSquareBrace,
+	
+	DoubleConstantandWord,
+	
+	IntConstantandWord,
 
 	DoubleConstant,
 
@@ -94,6 +99,17 @@ public enum TokenType {
 	Cotation,
 	
 	Exclamation,
+	
+	AtSign,
+	
+	QuestionMark,
+	
+	Percent,
+	
+	Dollar,
+	
+	Sharp,
+	
 	
 	//Package,
 	

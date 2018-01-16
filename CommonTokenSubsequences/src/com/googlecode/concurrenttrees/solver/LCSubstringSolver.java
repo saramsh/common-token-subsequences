@@ -20,8 +20,12 @@ import com.googlecode.concurrenttrees.radix.ConcurrentRadixTree;
 import com.googlecode.concurrenttrees.radix.node.Node;
 import com.googlecode.concurrenttrees.radix.node.NodeFactory;
 
+import java.awt.geom.RectangularShape;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
+
+import javax.management.relation.RelationServiceNotRegisteredException;
 
 /**
  * Finds the longest common substring in a collection of documents.
@@ -35,7 +39,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LCSubstringSolver {
 
     class ConcurrentSuffixTreeImpl<V> extends ConcurrentRadixTree<V> {
-
+    	
+    	
         public ConcurrentSuffixTreeImpl(NodeFactory nodeFactory) {
             super(nodeFactory);
         }
@@ -92,39 +97,96 @@ public class LCSubstringSolver {
          *
          * @return The longest common substring
          */
+        //added by sara
+        List<String> stringTokenize(CharSequence NodeKeyPairKey)
+        {
+        	//ADDED BY SARA
+        	//System.out.println("keypair:"+NodeKeyPairKey.length()+ "-"+NodeKeyPairKey.toString());
+        	String[] arrayOfCurrentKeyTokens=NodeKeyPairKey.toString().split(" ");
+        	//System.out.println("array:"+arrayOfCurrentKeyTokens+"--"+arrayOfCurrentKeyTokens.length);
+        	//arrayOfCurrentKeyTokens.
+        	List<String> listOfCurrentKeyTokens=new ArrayList<String>();
+        	for(String token :arrayOfCurrentKeyTokens)
+        	if(token.length()>0)
+        	{
+        			listOfCurrentKeyTokens.add(token);
+        	//		System.out.println("&&&&&&&&&"+token+"-"+token.length()+listOfDocumentsTokens.contains(token));
+        			
+        	}
+        	//listOfCurrentKeyTokens.remove(" ");
+        	//System.out.println("list:"+listOfCurrentKeyTokens.size());
+        	if(listOfCurrentKeyTokens.size()>0  && !listOfDocumentsTokens.contains(listOfCurrentKeyTokens.get(0)))
+        	{
+        		
+        		listOfCurrentKeyTokens.remove(0);
+        		//if(listOfCurrentKeyTokens.size()>0)
+        			//listOfCurrentKeyTokens.remove(0);
+        	//	System.out.println("ok"+listOfCurrentKeyTokens.size());
+        	}
+        	
+        	if(listOfCurrentKeyTokens.size()>0 && !listOfDocumentsTokens.contains(listOfCurrentKeyTokens.get(listOfCurrentKeyTokens.size()-1)))
+        	{
+        			listOfCurrentKeyTokens.remove(listOfCurrentKeyTokens.size()-1);
+        			//if(listOfCurrentKeyTokens.size()>0)
+            		//	listOfCurrentKeyTokens.remove(listOfCurrentKeyTokens.size()-1);
+        	}
+        	//System.out.println("ok"+listOfCurrentKeyTokens.size());
+        	return listOfCurrentKeyTokens;
+        	
+        }
+        
+        
         CharSequence getLongestCommonSubstring() {
             Node root = suffixTree.getNode();
-            final CharSequence[] longestCommonSubstringSoFar = new CharSequence[] {""};
+            final String[] longestCommonSubstringSoFar = new String[] {""};
             final int[] longestCommonSubstringSoFarLength = new int[] {0};
 
             for (NodeKeyPair nodeKeyPair : lazyTraverseDescendants("", root)) {
-                if (nodeKeyPair.key.length() > longestCommonSubstringSoFarLength[0]
-                    && subTreeReferencesAllOriginalDocuments(nodeKeyPair.key, nodeKeyPair.node)) {
-                    longestCommonSubstringSoFarLength[0] = nodeKeyPair.key.length();
-                    longestCommonSubstringSoFar[0] = nodeKeyPair.key;
+            	//added by sara revised for tokens
+            	//System.out.println("insert if"+nodeKeyPair.key);
+                if ( subTreeReferencesAllOriginalDocuments(nodeKeyPair.key, nodeKeyPair.node)) {  
+                  	
+	                	String currentKey=stringTokenize(nodeKeyPair.key).toString();
+	                	currentKey=currentKey.replace("[", "");
+	                	currentKey=currentKey.replace("]", "");
+	                	currentKey=currentKey.replace(",", "");
+	                	//System.out.println("current key:"+currentKey);
+	                	if(currentKey.split(" ").length>longestCommonSubstringSoFarLength[0])
+	                	{
+	                		System.out.println("current key:"+currentKey);
+	                		longestCommonSubstringSoFarLength[0] = currentKey.split(" ").length;
+	                		longestCommonSubstringSoFar[0] = currentKey;
+	                	}
+                	}
                 }
-            }
+            System.out.println("end common"+longestCommonSubstringSoFar[0]);
             return longestCommonSubstringSoFar[0];
         }
         
         //added by sara 
           List<String> getLongestCommonSubstrings(CharSequence FirstLongestCommonSubsequence) {
     		// TODO Auto-generated method stub
+        	  System.out.println("***"+FirstLongestCommonSubsequence);
     	     Node root = suffixTree.getNode();
             final List<String> longestCommonSubstrings=new ArrayList<String>() ;
             longestCommonSubstrings.add(FirstLongestCommonSubsequence.toString());
             //final int[] longestCommonSubstringSoFarLength = new int[] {0};
             for (NodeKeyPair nodeKeyPair : lazyTraverseDescendants("", root)) {
-            	if (nodeKeyPair.key.toString().split(" ").length == FirstLongestCommonSubsequence.toString().split(" ").length)
-                          	{//System.out.println(nodeKeyPair.key+ " "+nodeKeyPair.key.toString().split(" ").length);
-                          //	System.out.println (nodeKeyPair.key.toString().equals(FirstLongestCommonSubsequence.toString()));
-                          	}
-            	
-                if (nodeKeyPair.key.toString().split(" ").length == FirstLongestCommonSubsequence.toString().split(" ").length
-                		&& !nodeKeyPair.key.toString().equals(FirstLongestCommonSubsequence.toString())
-                    && subTreeReferencesAllOriginalDocuments(nodeKeyPair.key, nodeKeyPair.node)) {
-                    longestCommonSubstrings.add(nodeKeyPair.key.toString());                  
-                }
+            	if (subTreeReferencesAllOriginalDocuments(nodeKeyPair.key, nodeKeyPair.node))
+            	{
+            		String currentKey=stringTokenize(nodeKeyPair.key).toString();
+                	currentKey=currentKey.replace("[", "");
+                	currentKey=currentKey.replace("]", "");
+                	currentKey=currentKey.replace(",", "");
+                	//System.out.println("current key:"+currentKey);
+                	if(currentKey.split(" ").length==FirstLongestCommonSubsequence.toString().split(" ").length
+                			&& !currentKey.equals(FirstLongestCommonSubsequence.toString()))
+                	{
+                		longestCommonSubstrings.add(currentKey);
+            		
+                	}
+                       
+            	}
             }
             return longestCommonSubstrings;
         }
@@ -133,7 +195,9 @@ public class LCSubstringSolver {
         
 
         /**
-         * Returns true if the given node and its descendants collectively reference all original documents added to
+         * Returns true if the given node and its descendants collectively reference all original documents 
+
+ed to
          * the solver.
          * <p/>
          * This method will traverse the entire sub-tree until it has encountered all of the original documents. If
@@ -168,6 +232,8 @@ public class LCSubstringSolver {
 
     final ConcurrentSuffixTreeImpl<Set<String>> suffixTree;
     final Set<String> originalDocuments;
+    //added by sara
+	List<String> listOfDocumentsTokens;
 
     /**
      * Creates a new {@link LCSubstringSolver} which will use the given {@link NodeFactory} to create nodes.
@@ -179,6 +245,8 @@ public class LCSubstringSolver {
     public LCSubstringSolver(NodeFactory nodeFactory) {
         this.suffixTree = new ConcurrentSuffixTreeImpl<Set<String>>(nodeFactory);
         this.originalDocuments = createSetForOriginalKeys();
+        //ADDED BY sara
+        this.listOfDocumentsTokens=new ArrayList<String>();
     }
 
     /**
@@ -194,11 +262,19 @@ public class LCSubstringSolver {
         if (document.length() == 0) {
             throw new IllegalArgumentException("The document argument was zero-length");
         }
+        //added by sara
+        String[] documentTokens=document.toString().split(" ");
+        for( String token:documentTokens)
+        {
+        	if(!listOfDocumentsTokens.contains(token));
+        		listOfDocumentsTokens.add(token);     		
+        }
+        //
         suffixTree.acquireWriteLock();
         try {
             // We convert to string (for now) due to lack of equals() and hashCode() support in CharSequence...
             String documentString = CharSequences.toString(document);
-
+            
             // Put/replace value in set before we add suffixes to the tree...
             boolean addedNew = originalDocuments.add(documentString);
             if (!addedNew) {
