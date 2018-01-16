@@ -181,8 +181,8 @@ public class Lexer {
 		regEx.put(TokenType.Percent, "(\\%).*");
 		regEx.put(TokenType.Dollar, "(\\$).*");
 		regEx.put(TokenType.Sharp, "(\\#).*");
-		//regEx.put(TokenType.BackSlash, "(\\\\).*");
-		//regEx.put(TokenType.BackSlash, "(\\).*");
+		regEx.put(TokenType.SpecialCharacter1, "(\\~).*");
+		regEx.put(TokenType.SpecialCharacter2, "(\\^).*");
 		regEx.put(TokenType.AtSign, "(\\@).*");
 		regEx.put(TokenType.Public, "\\b(public)\\b.*");
 		regEx.put(TokenType.Private, "\\b(private)\\b.*");
@@ -208,7 +208,7 @@ public class Lexer {
 		regEx.put(TokenType.Less, "(<).*");
 		//regEx.put(TokenType.Package, "\\b(package)\\b.*");
 		//regEx.put(TokenType.Import, "\\b(import)\\b.*");
-		regEx.put(TokenType.Identifier, "\\b([a-zA-Z]{1}[0-9a-zA-Z_]{0,1000})\\b.*");
+		regEx.put(TokenType.Identifier, "\\b([a-zA-Z_]{1}[0-9a-zA-Z_]{0,1000})\\b.*");
 	}
 
 }
