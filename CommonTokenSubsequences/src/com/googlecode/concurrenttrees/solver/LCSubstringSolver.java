@@ -153,20 +153,20 @@ public class LCSubstringSolver {
 	                	//System.out.println("current key:"+currentKey);
 	                	if(currentKey.split(" ").length>longestCommonSubstringSoFarLength[0])
 	                	{
-	                		System.out.println("current key:"+currentKey);
+	                		//System.out.println("current key:"+currentKey);
 	                		longestCommonSubstringSoFarLength[0] = currentKey.split(" ").length;
 	                		longestCommonSubstringSoFar[0] = currentKey;
 	                	}
                 	}
                 }
-            System.out.println("end common"+longestCommonSubstringSoFar[0]);
+           // System.out.println("end common"+longestCommonSubstringSoFar[0]);
             return longestCommonSubstringSoFar[0];
         }
         
         //added by sara 
           List<String> getLongestCommonSubstrings(CharSequence FirstLongestCommonSubsequence) {
     		// TODO Auto-generated method stub
-        	  System.out.println("***"+FirstLongestCommonSubsequence);
+        	//  System.out.println("***"+FirstLongestCommonSubsequence);
     	     Node root = suffixTree.getNode();
             final List<String> longestCommonSubstrings=new ArrayList<String>() ;
             longestCommonSubstrings.add(FirstLongestCommonSubsequence.toString());
