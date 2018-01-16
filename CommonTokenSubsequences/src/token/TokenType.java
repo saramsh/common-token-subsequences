@@ -18,6 +18,10 @@ public enum TokenType {
 	OpeningCurlyBrace,
 
 	ClosingCurlyBrace,
+	
+	OpeningSquareBrace,
+
+	ClosingSquareBrace,
 
 	DoubleConstant,
 
@@ -72,10 +76,28 @@ public enum TokenType {
 	While,
 
 	Else,
+	
+	//added by sara
 
 	Semicolon,
 
 	Comma,
+	
+	Colon,
+	
+	Ampersand,
+	
+	OrCharacter,
+	
+	DoubleCotation,
+	
+	Cotation,
+	
+	Exclamation,
+	
+	//Package,
+	
+	//Import,
 
 	Identifier;
 
