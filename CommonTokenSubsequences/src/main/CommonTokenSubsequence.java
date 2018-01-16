@@ -34,22 +34,22 @@ public class CommonTokenSubsequence {
 		List<String> listOfTokenizedContent=new ArrayList<String>();
 			try {
 				//Read content of files and add them to listOfFilesContent
-				File folder = new File("bin\\100-testcase");
+				File folder = new File("C:\\Users\\Vaio\\workspace\\CommonTokenSubsequences\\src\\10-testcase");
 				File[] listOfFiles = folder.listFiles();
 				
 				for (File file : listOfFiles) {
 					System.out.println(file.getName());
 				    if (file.isFile()) {
-				    	listOfFilesContent.add(new String(Files.readAllBytes(Paths.get("bin\\100-testcase\\"+file.getName()))));						
+				    	listOfFilesContent.add(new String(Files.readAllBytes(Paths.get("C:\\Users\\Vaio\\workspace\\CommonTokenSubsequences\\src\\10-testcase\\"+file.getName()))));						
 				    }
 				}				
 		  LCSubstringSolver solver = new LCSubstringSolver(new DefaultCharSequenceNodeFactory());
 			//String content = new String(Files.readAllBytes(Paths.get("bin\\test.txt")));
 			StringTokenizer defaultTokenizer;
 			//tokenize fileContent
-			PrintWriter pw = new PrintWriter(new File("bin\\test4.csv"));
+			PrintWriter pw = new PrintWriter(new File("C:\\Users\\Vaio\\workspace\\CommonTokenSubsequences\\src\\10-testcase\\out.csv"));
 	        StringBuilder sb = new StringBuilder();
-			int kk=0;
+	        System.out.println("Tokenize Files Content ....");
 			for(String fileContent:listOfFilesContent)
 			{
 				defaultTokenizer= new StringTokenizer(fileContent);
@@ -57,46 +57,22 @@ public class CommonTokenSubsequence {
 			//	System.out.println(fileContent);
 				 Lexer lx=new Lexer();
 		         lx.tokenize(fileContent);
-		         System.out.println("bbbbb");
 		         List<String> listOfTokenStrings=lx.getTokensStrings();
-		         System.out.println("ccccc");
 		         String tokenizedContent=listOfTokenStrings.toString();			         
 		         tokenizedContent=tokenizedContent.replace("[", "");
 		         tokenizedContent=tokenizedContent.replace("]", "");
 		         tokenizedContent=tokenizedContent.replace(",", "");
 		         listOfTokenizedContent.add(tokenizedContent);
 		         solver.add(tokenizedContent);	     
-		         System.out.println(kk);
-		       //  sb.append(tokenizedContent);
-		         kk++;
-			}
 
-	         
-	         //String content2 = new String(Files.readAllBytes(Paths.get("bin\\test2.txt")));
-	         //String content3 = new String(Files.readAllBytes(Paths.get("bin\\test3.txt")));
-	         //Lexer lx2=new Lexer();
-	         //lx2.tokenize(content2);
-	         //List <String> result2=lx2.getTokensStrings();
-	         //String str2=result2.toString();	       
-	         //str2=str2.replace("[", "");
-	         //str2=str2.replace("]", "");
-	         //str2=str2.replace(",", "");
-	         //solver.add(str2);
-	        //Lexer lx3=new Lexer();
-	         //lx3.tokenize(content3);
-	         //List <String> result3=lx3.getTokensStrings();        
-	         //String str3=result3.toString();	       
-	         //str3=str3.replace("[", "");
-	         //str3=str3.replace("]", "");
-	         //str3=str3.replace(",", "");
-	         //solver.add(str3);
-			
+			}
+		
+			System.out.println("Finding Longest Common Token Subsequence ....");
 	        sb.append("Score, Tokens, Count, SourceCode\n");
-	        System.out.println("ddddddddddd");
-	        String st=solver.getLongestCommonSubstring().toString();
-	        System.out.println( "longestcommon:"+st);
+	        //String st=solver.getLongestCommonSubstring().toString();
+	        //System.out.println( "longestcommon:"+st);
 	         List<String> LongestCommonSubstrings=solver.getLongestCommonSubstrings(solver.getLongestCommonSubstring().toString());
-	         System.out.println("ssize"+LongestCommonSubstrings.size());
+	         System.out.println("Number of Longest Common Token Subsequences: "+LongestCommonSubstrings.size());
 	         for(int i=0;i<LongestCommonSubstrings.size();i++)
 	       
 	        {
@@ -117,6 +93,7 @@ public class CommonTokenSubsequence {
           
 	        }
 	         pw.write(sb.toString());
+	         System.out.println("Output CSV file created.");
 	         pw.close();
 		  //  System.out.println(content);
 		} catch (IOException e) {
