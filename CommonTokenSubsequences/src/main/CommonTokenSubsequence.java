@@ -28,7 +28,7 @@ import com.googlecode.concurrenttrees.radix.node.concrete.DefaultCharSequenceNod
 import com.googlecode.concurrenttrees.solver.LCSubstringSolver;
 public class CommonTokenSubsequence {
 
-	public static void main() throws AnalyzerException  {
+	public static void main(String[] args) throws AnalyzerException  {
 		// TODO Auto-generated method stub
 		List<String> listOfFilesContent=new ArrayList<String>();
 		List<String> listOfTokenizedContent=new ArrayList<String>();
