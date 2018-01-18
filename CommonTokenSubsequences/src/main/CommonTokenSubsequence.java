@@ -32,28 +32,60 @@ public class CommonTokenSubsequence {
 		// TODO Auto-generated method stub
 		List<String> listOfFilesContent=new ArrayList<String>();
 		List<String> listOfTokenizedContent=new ArrayList<String>();
+		String testCase,outPutPath;
+		testCase="2-testcase";
+		outPutPath=".\\Out.csv";
 			try {
+				if(args.length>0)
+				{
+					if(args.length==1)
+					{
+						 outPutPath=args[0];
+							if(!outPutPath.matches("([a-zA-Z]\\:)?(\\\\[a-zA-Z0-9_\\-|\\.]+)+\\.csv"))
+							{
+								System.out.println("Error: Insert the input parameter in correct format. Example: d:\\Out.csv");
+								return;
+									}
+					}											
+					else
+					{
+						testCase=args[0];
+						outPutPath=args[1];
+							if(!testCase.matches("(2|10|100)\\-testcase"))
+							{
+								System.out.println("Error: Insert correct name for test case. (2-testcase or 10-testcase or 100-testcase");
+								return;					
+							}
+							if(!outPutPath.matches("([a-zA-Z]\\:)?(\\\\[a-zA-Z0-9_\\-|\\.]+)+\\.csv"))
+							{
+								System.out.println("Error: Insert Second input parameter in correct format. Example: d:\\Out.csv");
+								return;
+									}
+							}
+			}
 				//Read content of files and add them to listOfFilesContent
-				File folder = new File("C:\\Users\\Vaio\\workspace\\CommonTokenSubsequences\\src\\10-testcase");
+				File folder = new File(".\\"+testCase);
+				//System.out.println(testCase+ "\\");
 				File[] listOfFiles = folder.listFiles();
-				
+			//	System.out.println("aaaaaaaaa"+listOfFiles.length);
 				for (File file : listOfFiles) {
 					System.out.println(file.getName());
 				    if (file.isFile()) {
-				    	listOfFilesContent.add(new String(Files.readAllBytes(Paths.get("C:\\Users\\Vaio\\workspace\\CommonTokenSubsequences\\src\\10-testcase\\"+file.getName()))));						
+				    	listOfFilesContent.add(new String(Files.readAllBytes(Paths.get(".\\"+testCase+ "\\"+file.getName()))));						
 				    }
 				}				
 		  LCSubstringSolver solver = new LCSubstringSolver(new DefaultCharSequenceNodeFactory());
 			//String content = new String(Files.readAllBytes(Paths.get("bin\\test.txt")));
 			StringTokenizer defaultTokenizer;
 			//tokenize fileContent
-			PrintWriter pw = new PrintWriter(new File("C:\\Users\\Vaio\\workspace\\CommonTokenSubsequences\\src\\10-testcase\\out.csv"));
+			PrintWriter pw = new PrintWriter(new File(outPutPath));
 	        StringBuilder sb = new StringBuilder();
 	        System.out.println("Tokenize Files Content ....");
+	        int y=1;
 			for(String fileContent:listOfFilesContent)
 			{
 				defaultTokenizer= new StringTokenizer(fileContent);
-				//System.out.println("aaaa");
+				System.out.println(y);y++;
 			//	System.out.println(fileContent);
 				 Lexer lx=new Lexer();
 		         lx.tokenize(fileContent);
@@ -87,7 +119,7 @@ public class CommonTokenSubsequence {
 	                 //System.out.println(fileTokenizedContent+"\n"+ count);
 	                 
 	        	 }
-	        	 double score=(Math.log(tokenCount)*Math.log(count));
+	        	 double score=((Math.log(tokenCount)/Math.log(2))*(Math.log(count)/Math.log(2)));
                  if(score!=0)
                  sb.append(score+", "+tokenCount+", "+count+", "+LongestCommonSubstrings.get(i)+"\n");
           
