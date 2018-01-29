@@ -65,6 +65,7 @@ Type the java command in command prompt as below to run the program:
          java main/CommonTokenSubsequence g:\out.csv
       
   - Run with two input parameters:
+  
          java main/CommonTokenSubsequence input1(name of the test case folder) input2(path and name of the output csv file)
          
          Example:
